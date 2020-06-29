@@ -1,0 +1,48 @@
+<div class="login">
+  <div class="container login-container">
+    <div class="row w-100">
+      <div class="col-12 w-100">
+        <h2>Acceso al Sistema</h2>
+      </div>
+      <div class="col-12 w-100">
+        <form [formGroup]="formularioLogin">
+          <mat-form-field class="w-100">
+            <mat-label>Usuario</mat-label>
+            <input matInput formControlName="usuario" [errorStateMatcher]="matcher"
+                   placeholder="Ex. pat@example.com">
+            <mat-error *ngIf="formularioLogin.controls['usuario'].hasError('caracteresEspeciales') && !formularioLogin.controls['usuario'].hasError('required')">
+              El Usuario contiene Caracteres Especiales
+            </mat-error>
+            <mat-error *ngIf="formularioLogin.controls['usuario'].hasError('required')">
+              El Usuario es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <mat-label>Contraseña</mat-label>
+            <input matInput formControlName="contrasena" [type]="ocultarContrasena ? 'password' : 'text'" [errorStateMatcher]="matcher"/>
+            <button mat-icon-button matSuffix (click)="ocultarContrasena = !ocultarContrasena" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="ocultarContrasena">
+              <mat-icon>{{ocultarContrasena ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="formularioLogin.controls['contrasena'].hasError('caracteresEspeciales') && !formularioLogin.controls['contrasena'].hasError('required')">
+              La Contraseña contiene Caracteres Especiales
+            </mat-error>
+            <mat-error *ngIf="formularioLogin.controls['contrasena'].hasError('required')">
+              La Contraseña es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-error *ngIf="loginIncorrecto">
+            Usuario o Contraseña incorrectos
+          </mat-error>
+          <hr>
+          <div>
+            <button mat-button mat-raised-button
+                    color="primary"
+                    (click)="login()">
+                    Acceder
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

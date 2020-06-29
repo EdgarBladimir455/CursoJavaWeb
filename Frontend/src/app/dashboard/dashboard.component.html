@@ -1,0 +1,34 @@
+<div class="dashboard">
+
+  <div class="toolbar">
+    <p>
+      <mat-toolbar color="primary">
+       <button mat-icon-button (click)="sidenav.toggle()" class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>{{usuarioEnSession?.nombre}}</span>
+      <span class="spacer"></span>
+      <div matTooltip="Salir">
+        <button mat-icon-button aria-label="Salir" (click)="logout()">
+         <mat-icon>exit_to_app</mat-icon>
+       </button>
+      </div>
+    </mat-toolbar>
+    </p>
+  </div>
+
+  <mat-sidenav-container class="dashboard-container">
+    <mat-sidenav #sidenav mode="over">
+      <mat-nav-list>
+        <a *ngFor="let opcion of opcionesMenu" mat-list-item [routerLink]="opcion.path" (click)="sidenav.toggle()" routerLinkActive="opcion-activa">{{opcion.nombre}}</a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+

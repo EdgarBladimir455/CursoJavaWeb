@@ -1,0 +1,98 @@
+<div class="formulario-maestros">
+  <div class="titulo-seccion">
+    <span class="align-center mr-2">
+      <h2 class="mb-0">
+        {{esEdicion ? 'Edición' : 'Alta'}} de Alumno
+      </h2>
+    </span>
+    <span class="align-center" *ngIf="transaccionEnProgreso">
+      <mat-spinner [diameter]="20"></mat-spinner>
+    </span>
+    <span class="spacer"></span>
+    <span class="align-center">
+      <button mat-button mat-raised-button color="primary" (click)="regresar()">
+        Regresar
+      </button>
+    </span>
+  </div>
+  <hr>
+
+  <form [formGroup]="formularioAlumnos" class="formulario" novalidate (ngSubmit)="procesarFormularioAlumnos()">
+    <div class="row">
+      <div class="col-md-4 col-sm-12 mb-2">
+        <mat-form-field class="w-100">
+          <mat-label>Nombre *</mat-label>
+          <input matInput formControlName="nombreControl" [errorStateMatcher]="matcher">
+          <mat-error *ngIf="formularioAlumnos.controls['nombreControl'].hasError('caracteresEspeciales') && !formularioAlumnos.controls['nombreControl'].hasError['required']">
+            El Nombre contiene Caracteres Especiales
+          </mat-error>
+          <mat-error *ngIf="formularioAlumnos.controls['nombreControl'].hasError('required')">
+            El Nombre es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4 col-sm-12 mb-2">
+        <mat-form-field class="w-100">
+          <mat-label>Usuario *</mat-label>
+          <input matInput formControlName="usuarioControl" [errorStateMatcher]="matcher">
+          <mat-error *ngIf="formularioAlumnos.controls['usuarioControl'].hasError('caracteresEspeciales') && !formularioAlumnos.controls['usuarioControl'].hasError['required']">
+            El Usuario contiene Caracteres Especiales
+          </mat-error>
+          <mat-error *ngIf="formularioAlumnos.controls['usuarioControl'].hasError('required')">
+            El Usuario es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4 col-sm-12 mb-2">
+        <mat-form-field class="w-100">
+          <mat-label *ngIf="esEdicion">Contraseña</mat-label>
+          <mat-label *ngIf="!esEdicion">Contraseña *</mat-label>
+          <input matInput formControlName="contrasenaControl" [type]="ocultarContrasena ? 'password' : 'text'" [errorStateMatcher]="matcher"/>
+          <button mat-icon-button matSuffix (click)="ocultarContrasena = !ocultarContrasena" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="ocultarContrasena">
+            <mat-icon>{{ocultarContrasena ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="formularioAlumnos.controls['contrasenaControl'].hasError('caracteresEspeciales') && !formularioAlumnos.controls['contrasenaControl'].hasError['required']">
+            La Contraseña contiene Caracteres Especiales
+          </mat-error>
+          <mat-error *ngIf="formularioAlumnos.controls['contrasenaControl'].hasError('required')">
+            La Contraseña es <strong>requerida</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4 col-sm-12 mb-2">
+        <mat-form-field class="w-100">
+          <mat-label>Matrícula *</mat-label>
+          <input type="number" appOnlyNumber matInput formControlName="matriculaControl" [errorStateMatcher]="matcher">
+          <mat-error *ngIf="formularioAlumnos.controls['matriculaControl'].hasError('required')">
+            La Matrícula es <strong>requerida</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4 col-sm-12 mb-2">
+        <mat-form-field class="w-100">
+          <mat-select placeholder="Estatus *" formControlName="estatusControl">
+            <mat-option *ngFor="let estatus of listaEstatus" [value]="estatus">
+              {{estatus.nombre}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formularioAlumnos.controls['estatusControl'].hasError('required')">
+            El Estatus es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mt-3 col-12">
+        <div class="row">
+          <div class="col-md-4 col-sm-12">
+            <button mat-button mat-raised-button
+                    color="primary"
+                    type="submit"
+                    class="w-100"
+                    [disabled]="transaccionEnProgreso">
+                    Guardar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

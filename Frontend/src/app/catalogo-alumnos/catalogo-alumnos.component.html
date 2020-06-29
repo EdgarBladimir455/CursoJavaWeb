@@ -1,0 +1,91 @@
+<div class="catalogo-alumnos">
+  <div class="titulo-seccion">
+    <span class="align-center mr-2">
+      <h2 class="mb-0">
+        Catálogo De Alumnos
+      </h2>
+    </span>
+    <span class="align-center" *ngIf="transaccionEnProgreso">
+      <mat-spinner [diameter]="20"></mat-spinner>
+    </span>
+    <span class="spacer"></span>
+    <span class="align-center">
+      <button mat-icon-button (click)="irAFormularioAlumnos()">
+        <mat-icon>person_add</mat-icon>
+      </button>
+    </span>
+  </div>
+  <hr>
+  <div class="titulo-seccion">
+    <span class="align-center">
+      <h4 class="mb-0">
+        Filtro de Busqueda
+      </h4>
+    </span>
+    <span class="align-center flex-rigth pointer" (click)="mostrarFiltroBusqueda = !mostrarFiltroBusqueda">
+      <button mat-icon-button>
+        <mat-icon *ngIf="!mostrarFiltroBusqueda">arrow_drop_down</mat-icon>
+        <mat-icon *ngIf="mostrarFiltroBusqueda">arrow_drop_up</mat-icon>
+      </button>
+    </span>
+  </div>
+
+  <div class="filtro-busqueda" *ngIf="mostrarFiltroBusqueda">
+    <div class="row">
+      <div class="col">
+        <mat-form-field class="w-100">
+          <mat-label>Nombre</mat-label>
+          <input matInput [formControl]="nombreControl" [errorStateMatcher]="matcher">
+          <mat-error *ngIf="nombreControl.hasError('caracteresEspeciales')">
+            El Nombre contiene Caracteres Especiales
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field class="w-100">
+          <mat-label>Usuario</mat-label>
+          <input matInput [formControl]="usuarioControl" [errorStateMatcher]="matcher">
+          <mat-error *ngIf="usuarioControl.hasError('caracteresEspeciales')">
+            El Usuario contiene Caracteres Especiales
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field class="w-100">
+          <mat-label>Matrícula</mat-label>
+          <input type="number" appOnlyNumber matInput [formControl]="matricula" [errorStateMatcher]="matcher">
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field class="w-100">
+          <mat-select placeholder="Estatus" [formControl]="estatusControl">
+            <mat-option *ngFor="let estatus of listaEstatus" [value]="estatus.idEstatus">
+              {{estatus.nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-12">
+          <button mat-button mat-raised-button
+                  color="primary">
+                  Buscar
+          </button>
+      </div>
+    </div>
+  </div>
+  <hr>
+
+  <div class="grid">
+    <app-generic-grid
+     [displayedColumns]="displayedColumns"
+     [displayedHeaders]="displayedHeaders"
+     [totalCount]="cantidadRegistros"
+     [dataSource]="dataSource"
+     [idRowSelector]="idRowSelector"
+     (deleteEvent)="confirmarEliminarAlumno($event)"
+     (editEvent)="editarAlumno($event)"
+     (updateDataRequestEvent)="actualizarGrid($event)">
+    </app-generic-grid>
+  </div>
+
+</div>
