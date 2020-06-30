@@ -14,8 +14,6 @@ export class HtppInterceptorService implements HttpInterceptor {
               private authService: AuthenticationService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    console.log(0);
-
     if (sessionStorage.getItem('username') && sessionStorage.getItem('token')) {
       req = req.clone({
         setHeaders: {
@@ -26,8 +24,7 @@ export class HtppInterceptorService implements HttpInterceptor {
 
     return next.handle(req).pipe(tap((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
-        // do stuff with response if you want
-        console.log(event);
+
       }
     }, (err: any) => {
       console.log(err);

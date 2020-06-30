@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
 import { MENSAJE_INICIAR_SESION } from 'src/app/shared/shared/constants/general-constant';
+import { EstatusService } from 'src/app/estatus/service/estatus.service';
 
 @Component({
   selector: 'app-formulario-alumnos',
@@ -37,18 +38,17 @@ export class FormularioAlumnosComponent implements OnInit {
               private fb: FormBuilder,
               private router: Router,
               private snackBar: MatSnackBar,
-              private alumnoService: AlumnosService) {
+              private alumnoService: AlumnosService,
+              private estatusService: EstatusService) {
     this.activatedRoute.params
     .subscribe((param) => {
       if (param['id'] && !isNaN(param['id'])) {
         this.idAlumno = parseInt(param['id'], 10);
         this.esEdicion = true;
-        console.log('usuario editar: ' + this.idAlumno);
         this.consultarAlumno();
       } else {
         this.idAlumno = null;
         this.esEdicion = false;
-        console.log('nuevo usuario');
       }
     });
 
@@ -57,11 +57,26 @@ export class FormularioAlumnosComponent implements OnInit {
       usuarioControl: new FormControl('', [Validators.required, caracteresEspecialesValidator]),
       contrasenaControl: new FormControl('', [Validators.required, caracteresEspecialesValidator]),
       matriculaControl: new FormControl('', [Validators.required]),
-      estatusControl: new FormControl('', [])
+      estatusControl: new FormControl(null, [Validators.required])
     });
   }
 
   ngOnInit(): void {
+    this.consultarEstatus();
+  }
+
+  consultarEstatus() {
+    this.estatusService.consultar()
+    .pipe(finalize(() => this.transaccionEnProgreso = false))
+    .subscribe((listaEstatus) => {
+      this.listaEstatus = listaEstatus;
+
+      if (this.listaEstatus.length > 0) {
+        this.formularioAlumnos.controls['estatusControl'].setValue(this.listaEstatus[0].idEstatus);
+      }
+    }, (error: HttpErrorResponse) => {
+      this.snackBar.open(error.status === 401 ? MENSAJE_INICIAR_SESION : error.error, 'Aceptar', {duration: 2000});
+    });
   }
 
   regresar() {
@@ -86,14 +101,13 @@ export class FormularioAlumnosComponent implements OnInit {
     this.formularioAlumnos.controls['usuarioControl'].setValue(usuario.usuario);
     this.formularioAlumnos.controls['matriculaControl'].setValue(usuario.alumno.matricula);
     this.formularioAlumnos.controls['contrasenaControl'].setValue(null);
-    this.formularioAlumnos.controls['estatusControl'].setValue(usuario.estatus.clave);
+    this.formularioAlumnos.controls['estatusControl'].setValue(usuario.estatus.idEstatus);
   }
 
   procesarFormularioAlumnos() {
     if (this.formularioAlumnos.valid && !this.transaccionEnProgreso) {
       this.transaccionEnProgreso = true;
       const alumno = this.generarAlumno();
-      console.log(alumno);
 
       if (this.esEdicion) {
         this.alumnoService.editarAlumno(alumno)
@@ -129,7 +143,7 @@ export class FormularioAlumnosComponent implements OnInit {
     alumno.contrasena = this.formularioAlumnos.controls['contrasenaControl'].value;
     alumno.matricula = this.formularioAlumnos.controls['matriculaControl'].value;
     alumno.estatus = new Estatus();
-    alumno.estatus.clave = this.formularioAlumnos.controls['estatusControl'].value;
+    alumno.estatus.idEstatus = this.formularioAlumnos.controls['estatusControl'].value;
 
     return alumno;
   }

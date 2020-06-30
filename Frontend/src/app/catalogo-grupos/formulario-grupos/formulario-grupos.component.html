@@ -1,0 +1,19 @@
+<div class="formulario-grupos">
+  <div class="titulo-seccion">
+    <span class="align-center mr-2">
+      <h2 class="mb-0">
+        {{esEdicion ? 'Edición' : 'Alta'}} de Grupo
+      </h2>
+    </span>
+    <span class="align-center" *ngIf="transaccionEnProgreso">
+      <mat-spinner [diameter]="20"></mat-spinner>
+    </span>
+    <span class="spacer"></span>
+    <span class="align-center">
+      <button mat-button mat-raised-button color="primary" (click)="regresar()">
+        Regresar
+      </button>
+    </span>
+  </div>
+  <hr>
+</div>

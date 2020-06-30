@@ -16,6 +16,11 @@ import { TIPO_PEFIL_ADMINISTRADOR } from '../shared/shared/constants/general-con
 import { MatButtonModule } from '@angular/material/button';
 import { FormularioMaestrosComponent } from './formulario-maestros/formulario-maestros.component';
 import { GenericGridModule } from '../shared/components/generic-grid/generic-grid.module';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MaestroService } from './service/maestro.service';
+import { TipoMaestroService } from '../tipo-maestro/service/tipo-maestro.service';
+import { EstatusService } from '../estatus/service/estatus.service';
 
 const routes: Routes = [
   {path: '', component: CatalogoMaestrosComponent,
@@ -34,7 +39,10 @@ const routes: Routes = [
     SharedModule,
     GenericGridModule,
 
+    MatProgressSpinnerModule,
+    MatDialogModule,
     RouterModule.forChild(routes)
-  ]
+  ],
+  providers: [MaestroService, TipoMaestroService, EstatusService]
 })
 export class CatalogoMaestrosModule { }

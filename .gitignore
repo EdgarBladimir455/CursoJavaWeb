@@ -4,6 +4,10 @@
 Frontend/dist
 Frontend/tmp
 Frontend/out-tsc
+
+Backend/CursoJavaWeb/target
+Backend/CursoJavaWeb/.settings
+
 # Only exists if Bazel was run
 Frontend/bazel-out
 

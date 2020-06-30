@@ -1,10 +1,13 @@
 <div class="catalogo-maestros">
 
   <div class="titulo-seccion">
-    <span class="align-center">
+    <span class="align-center mr-2">
       <h2 class="mb-0">
         Catálogo De Maestros
       </h2>
+    </span>
+    <span class="align-center" *ngIf="transaccionEnProgreso">
+      <mat-spinner [diameter]="20"></mat-spinner>
     </span>
     <span class="spacer"></span>
     <span class="align-center">
@@ -86,53 +89,16 @@
   <hr>
 
   <div class="grid">
-    <mat-table #table [dataSource]="dataSource" matSort>
-      <ng-container cdkColumnDef="acciones">
-        <mat-header-cell *cdkHeaderCellDef> Acciones </mat-header-cell>
-        <mat-cell *cdkCellDef="let row">
-          <button mat-icon-button>
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button>
-            <mat-icon>delete_forever</mat-icon>
-          </button>
-        </mat-cell>
-      </ng-container>
-
-      <ng-container cdkColumnDef="position">
-        <mat-header-cell *cdkHeaderCellDef mat-sort-header> RFC </mat-header-cell>
-        <mat-cell *cdkCellDef="let row"> {{row.position}} </mat-cell>
-      </ng-container>
-
-      <ng-container cdkColumnDef="name">
-        <mat-header-cell *cdkHeaderCellDef mat-sort-header> Teléfono </mat-header-cell>
-        <mat-cell *cdkCellDef="let row"> {{row.name}} </mat-cell>
-      </ng-container>
-
-      <ng-container cdkColumnDef="weight">
-        <mat-header-cell *cdkHeaderCellDef mat-sort-header> Teléfono </mat-header-cell>
-        <mat-cell *cdkCellDef="let row"> {{row.weight}} </mat-cell>
-      </ng-container>
-
-      <ng-container cdkColumnDef="symbol">
-        <mat-header-cell *cdkHeaderCellDef mat-sort-header> Teléfono </mat-header-cell>
-        <mat-cell *cdkCellDef="let row"> {{row.symbol}} </mat-cell>
-      </ng-container>
-
-
-      <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
-
-    <mat-paginator #paginator
-                  [length]="dataSource.length"
-                  [pageIndex]="0"
-                  [pageSize]="100"
-                  (matSortChange)="test($event)"
-                  (dirChange)="test2($event)"
-                  (page)="test3($event)"
-                  [pageSizeOptions]="[5, 10, 25, 100]">
-    </mat-paginator>
+    <app-generic-grid
+     [displayedColumns]="displayedColumns"
+     [displayedHeaders]="displayedHeaders"
+     [totalCount]="cantidadRegistros"
+     [dataSource]="dataSource"
+     [idRowSelector]="idRowSelector"
+     (deleteEvent)="confirmarEliminarMaestro($event)"
+     (editEvent)="editarMaestro($event)"
+     (updateDataRequestEvent)="actualizarGrid($event)">
+    </app-generic-grid>
   </div>
 
 </div>

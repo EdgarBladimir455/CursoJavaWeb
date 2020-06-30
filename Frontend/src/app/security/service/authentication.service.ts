@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { SERVER_HOST } from 'src/app/shared/shared/constants/general-constant';
 
 export class User {
   constructor(
@@ -20,26 +21,16 @@ export class AuthenticationService {
 
 
   authenticate(username, password) {
-    return this.httpClient.post<any>('http://localhost:8080/authenticate',{username,password}).pipe(
+    return this.httpClient.post<any>(`${SERVER_HOST}/authenticate`, {username, password}).pipe(
      map(
        userData => {
-        sessionStorage.setItem('username',username);
-        let tokenStr= 'Bearer '+userData.token;
+        sessionStorage.setItem('username', username);
+        const tokenStr = 'Bearer ' + userData.token;
         sessionStorage.setItem('token', tokenStr);
         return userData;
        }
      )
     );
-  }
-
-  registrarAdmin(usuario: string, contrasena: string) {
-    return this.httpClient.post<any>('http://localhost:8080/usuario/register', {username: usuario, password: contrasena}).pipe(
-      map(
-        userData => {
-         return userData;
-        }
-      )
-     );
   }
 
   isUserLoggedIn() {

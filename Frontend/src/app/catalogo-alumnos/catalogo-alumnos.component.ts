@@ -115,7 +115,6 @@ export class CatalogoAlumnosComponent implements OnInit {
   }
 
   actualizarGrid(paginacion: Pagination) {
-    console.log(paginacion);
     this.consultarUsuariosConFiltros(null, paginacion);
   }
 

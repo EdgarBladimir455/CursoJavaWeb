@@ -1,16 +1,110 @@
 <div class="formulario-maestros">
   <div class="titulo-seccion">
-    <span class="align-center">
+    <span class="align-center mr-2">
       <h2 class="mb-0">
         {{esEdicion ? 'Edición' : 'Alta'}} de Maestro
       </h2>
     </span>
+    <span class="align-center" *ngIf="transaccionEnProgreso">
+      <mat-spinner [diameter]="20"></mat-spinner>
+    </span>
     <span class="spacer"></span>
     <span class="align-center">
-      <button mat-button (click)="regresar()">
+      <button mat-button mat-raised-button color="primary" (click)="regresar()">
         Regresar
       </button>
     </span>
   </div>
   <hr>
+
+  <form [formGroup]="formularioMaestros" class="formulario" novalidate (ngSubmit)="procesarFormularioMaestros()">
+    <div class="row">
+      <div class="col-md-4 col-sm-12 mb-2">
+        <mat-form-field class="w-100">
+          <mat-label>Nombre *</mat-label>
+          <input matInput formControlName="nombreControl" [errorStateMatcher]="matcher">
+          <mat-error *ngIf="formularioMaestros.controls['nombreControl'].hasError('caracteresEspeciales') && !formularioMaestros.controls['nombreControl'].hasError['required']">
+            El Nombre contiene Caracteres Especiales
+          </mat-error>
+          <mat-error *ngIf="formularioMaestros.controls['nombreControl'].hasError('required')">
+            El Nombre es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4 col-sm-12 mb-2">
+        <mat-form-field class="w-100">
+          <mat-label>Usuario *</mat-label>
+          <input matInput formControlName="usuarioControl" [errorStateMatcher]="matcher">
+          <mat-error *ngIf="formularioMaestros.controls['usuarioControl'].hasError('caracteresEspeciales') && !formularioMaestros.controls['usuarioControl'].hasError['required']">
+            El Usuario contiene Caracteres Especiales
+          </mat-error>
+          <mat-error *ngIf="formularioMaestros.controls['usuarioControl'].hasError('required')">
+            El Usuario es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4 col-sm-12 mb-2">
+        <mat-form-field class="w-100">
+          <mat-label *ngIf="esEdicion">Contraseña</mat-label>
+          <mat-label *ngIf="!esEdicion">Contraseña *</mat-label>
+          <input matInput formControlName="contrasenaControl" [type]="ocultarContrasena ? 'password' : 'text'" [errorStateMatcher]="matcher"/>
+          <span class="pointer" mat-icon-button matSuffix (click)="ocultarContrasena = !ocultarContrasena" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="ocultarContrasena">
+            <mat-icon>{{ocultarContrasena ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </span>
+          <mat-error *ngIf="formularioMaestros.controls['contrasenaControl'].hasError('caracteresEspeciales') && !formularioMaestros.controls['contrasenaControl'].hasError['required']">
+            La Contraseña contiene Caracteres Especiales
+          </mat-error>
+          <mat-error *ngIf="formularioMaestros.controls['contrasenaControl'].hasError('required')">
+            La Contraseña es <strong>requerida</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4 col-sm-12 mb-2">
+        <mat-form-field class="w-100">
+          <mat-label>Número Empleado *</mat-label>
+          <input type="number" appOnlyNumber matInput formControlName="numeroEmpleadoControl" [errorStateMatcher]="matcher">
+          <mat-error *ngIf="formularioMaestros.controls['numeroEmpleadoControl'].hasError('required')">
+            El NÚmero de Empleado es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4 col-sm-12 mb-2">
+        <mat-form-field class="w-100">
+          <mat-select placeholder="Tipo Maestro *" formControlName="tipoMaestroControl">
+            <mat-option *ngFor="let tipoMaestro of listaTiposMaestro" [value]="tipoMaestro.idtipoMaestro">
+              {{tipoMaestro.nombre}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formularioMaestros.controls['tipoMaestroControl'].hasError('required')">
+            El Tipo de Maestro es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4 col-sm-12 mb-2">
+        <mat-form-field class="w-100">
+          <mat-select placeholder="Estatus *" formControlName="estatusControl">
+            <mat-option *ngFor="let estatus of listaEstatus" [value]="estatus.idEstatus">
+              {{estatus.nombre}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formularioMaestros.controls['estatusControl'].hasError('required')">
+            El Estatus es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mt-3 col-12">
+        <div class="row">
+          <div class="col-md-4 col-sm-12">
+            <button mat-button mat-raised-button
+                    color="primary"
+                    type="submit"
+                    class="w-100"
+                    [disabled]="transaccionEnProgreso">
+                    Guardar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>

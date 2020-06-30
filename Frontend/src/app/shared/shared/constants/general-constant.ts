@@ -9,16 +9,17 @@ export const MENU_ADMINISTRADOR = [
   {nombre: 'Catálogo Alumnos', path: '/inicio/catalogo-alumnos'}
 ];
 export const MENU_MAESTROS = [
-  {nombre: 'Perfil', path: ''},
-  {nombre: 'Catálogo Materias', path: ''},
-  {nombre: 'Catálogo Grupos', path: ''},
+  {nombre: 'Perfil', path: '/inicio/perfil'},
+  {nombre: 'Catálogo Materias', path: '/inicio/catalogo-materias'},
+  {nombre: 'Catálogo Grupos', path: '/inicio/catalogo-grupos'},
 ];
 export const MENU_ALUMNOS = [
-  {nombre: 'Perfil', path: ''},
-  {nombre: 'Inscribir materia', path: ''}
+  {nombre: 'Perfil', path: '/inicio/perfil'},
+  {nombre: 'Inscribir materia', path: '/inicio/inscripcion'}
 ];
 
-export const SERVER_HOST = 'http://localhost:8080';
+// export const SERVER_HOST = 'http://localhost:8080';
+export const SERVER_HOST = 'https://mimiss2020.herokuapp.com';
 
 export const MENSAJE_INICIAR_SESION = 'Vuelva a iniciar sesión';
 

@@ -10,6 +10,7 @@ import { AlumnosService } from './service/alumnos.service';
 import { FormularioAlumnosComponent } from './formulario-alumnos/formulario-alumnos.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
+import { EstatusService } from '../estatus/service/estatus.service';
 
 const routes: Routes = [
   {path: '', component: CatalogoAlumnosComponent,
@@ -32,6 +33,6 @@ const routes: Routes = [
     MatDialogModule,
     RouterModule.forChild(routes)
   ],
-  providers: [AlumnosService]
+  providers: [AlumnosService, EstatusService]
 })
 export class CatalogoAlumnosModule { }

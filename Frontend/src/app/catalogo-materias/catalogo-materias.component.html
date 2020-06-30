@@ -1,1 +1,53 @@
-<p>catalogo-materias works!</p>
+<div class="catalogo-materias">
+
+  <div class="titulo-seccion">
+    <span class="align-center mr-2">
+      <h2 class="mb-0">
+        Catálogo De Materias
+      </h2>
+    </span>
+    <span class="align-center" *ngIf="transaccionEnProgreso">
+      <mat-spinner [diameter]="20"></mat-spinner>
+    </span>
+    <span class="spacer"></span>
+    <span class="align-center" matTooltip="Agregar Materia">
+      <button mat-icon-button (click)="irAFormulario()">
+        <mat-icon>add_circle_outline</mat-icon>
+      </button>
+    </span>
+  </div>
+  <hr>
+
+  <div class="titulo-seccion">
+    <span class="align-center">
+      <h4 class="mb-0">
+        Filtro de Busqueda
+      </h4>
+    </span>
+    <span class="align-center flex-rigth pointer" (click)="mostrarFiltroBusqueda = !mostrarFiltroBusqueda">
+      <button mat-icon-button>
+        <mat-icon *ngIf="!mostrarFiltroBusqueda">arrow_drop_down</mat-icon>
+        <mat-icon *ngIf="mostrarFiltroBusqueda">arrow_drop_up</mat-icon>
+      </button>
+    </span>
+  </div>
+
+  <div class="filtro-busqueda" *ngIf="mostrarFiltroBusqueda">
+
+  </div>
+  <hr>
+
+  <div class="grid">
+    <app-generic-grid
+     [displayedColumns]="displayedColumns"
+     [displayedHeaders]="displayedHeaders"
+     [totalCount]="cantidadRegistros"
+     [dataSource]="dataSource"
+     [idRowSelector]="idRowSelector"
+     (deleteEvent)="confirmarEliminar($event)"
+     (editEvent)="editar($event)"
+     (updateDataRequestEvent)="actualizarGrid($event)">
+    </app-generic-grid>
+  </div>
+
+</div>

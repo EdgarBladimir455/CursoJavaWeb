@@ -14,8 +14,6 @@ export class AuthGaurdService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (this.authService.isUserLoggedIn()) {
       const perfilAcceso = route.data.perfilAcceso;
-      console.log(perfilAcceso);
-
       if (perfilAcceso && perfilAcceso !== sessionStorage.getItem('perfil') && perfilAcceso !== TIPO_PEFIL_TODOS) {
         this.router.navigate(['inicio/perfil']);
         return false;

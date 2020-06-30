@@ -48,9 +48,9 @@
           <mat-label *ngIf="esEdicion">Contraseña</mat-label>
           <mat-label *ngIf="!esEdicion">Contraseña *</mat-label>
           <input matInput formControlName="contrasenaControl" [type]="ocultarContrasena ? 'password' : 'text'" [errorStateMatcher]="matcher"/>
-          <button mat-icon-button matSuffix (click)="ocultarContrasena = !ocultarContrasena" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="ocultarContrasena">
+          <span class="pointer" mat-icon-button matSuffix (click)="ocultarContrasena = !ocultarContrasena" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="ocultarContrasena">
             <mat-icon>{{ocultarContrasena ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
+          </span>
           <mat-error *ngIf="formularioAlumnos.controls['contrasenaControl'].hasError('caracteresEspeciales') && !formularioAlumnos.controls['contrasenaControl'].hasError['required']">
             La Contraseña contiene Caracteres Especiales
           </mat-error>
@@ -71,7 +71,7 @@
       <div class="col-md-4 col-sm-12 mb-2">
         <mat-form-field class="w-100">
           <mat-select placeholder="Estatus *" formControlName="estatusControl">
-            <mat-option *ngFor="let estatus of listaEstatus" [value]="estatus">
+            <mat-option *ngFor="let estatus of listaEstatus" [value]="estatus.idEstatus">
               {{estatus.nombre}}
             </mat-option>
           </mat-select>

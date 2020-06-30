@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { SERVER_HOST } from 'src/app/shared/shared/constants/general-constant';
 
 export class Employee{
   constructor(
@@ -17,37 +18,10 @@ export class HttpClientService {
 
   constructor(private httpClient: HttpClient) {}
 
-  consultarUsuario() {
-    return this.httpClient.get('http://localhost:8080/test/hello', {responseType: 'json'});
-  }
-
   consultarUsuarioEnSession() {
     const usuario = sessionStorage.getItem('username');
-    return this.httpClient.get(`http://localhost:8080/usuario/consultar?usuario=${usuario}`);
+    return this.httpClient.get(`${SERVER_HOST}/usuario/consultar?usuario=${usuario}`);
   }
 
-  getEmployees() {
-    let username = 'javainuse';
-    let password = 'password';
 
-    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(username + ':' + password) });
-
-    return this.httpClient.get<Employee[]>('http://localhost:8080/employees', {headers});
-  }
-
-  public deleteEmployee(employee) {
-    let username='javainuse'
-    let password= 'password'
-
-    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(username + ':' + password) });
-    return this.httpClient.delete<Employee>("http://localhost:8080/employees" + "/"+ employee.empId,{headers});
-  }
-
-  public createEmployee(employee) {
-    let username='javainuse'
-    let password='password'
-
-    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(username + ':' + password) });
-    return this.httpClient.post<Employee>("http://localhost:8080/employees", employee,{headers});
-  }
 }
