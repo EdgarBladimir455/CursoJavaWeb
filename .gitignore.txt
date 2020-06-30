@@ -12,6 +12,11 @@ Backend/CursoJavaWeb/.settings
 
 */target/**
 
+.classpath
+.project
+.settings/
+target/
+
 # dependencies
 /node_modules
 
