@@ -8,6 +8,8 @@ Frontend/out-tsc
 Backend/CursoJavaWeb/target
 Backend/CursoJavaWeb/.settings
 
+*/target/**
+
 # Only exists if Bazel was run
 Frontend/bazel-out
 
